@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deyem Project - Richiedi Preventivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0A0A0B;
+            --color-bg-secondary: #111113;
+            --color-accent: #7A9EAA;
+            --color-accent-light: #9BB5C4;
+            --color-text: #FFFFFF;
+            --color-text-secondary: rgba(255, 255, 255, 0.6);
+            --color-success: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--color-accent), rgba(122, 158, 170, 0.6));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 0 auto 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: var(--color-text-secondary);
+            font-size: 16px;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 32px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-header {
+            margin-bottom: 24px;
+        }
+
+        .step-number {
+            font-size: 12px;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--color-text-secondary);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: var(--color-text);
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option-btn {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: var(--color-text);
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            background: rgba(122, 158, 170, 0.1);
+            border-color: var(--color-accent);
+        }
+
+        .option-btn.selected {
+            background: rgba(122, 158, 170, 0.15);
+            border-color: var(--color-accent);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 100px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-accent), rgba(122, 158, 170, 0.6));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(122, 158, 170, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-accent);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        .success-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 24px;
+        }
+
+        .success-title {
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 12px;
+        }
+
+        .success-text {
+            color: var(--color-text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--color-accent);
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .step-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">D</div>
+            <h1>Richiedi un Preventivo</h1>
+            <p class="subtitle">Raccontaci il tuo progetto. Ti contatteremo entro 24 ore.</p>
+        </div>
+
+        <div class="form-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 12.5%"></div>
+            </div>
+
+            <!-- Step 1: Name -->
+            <div class="step active" data-step="1">
+                <div class="step-header">
+                    <div class="step-number">Step 1 di 8</div>
+                    <div class="step-title">Come ti chiami?</div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Mario Rossi" required>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-primary" onclick="nextStep()">Continua</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Company -->
+            <div class="step" data-step="2">
+                <div class="step-header">
+                    <div class="step-number">Step 2 di 8</div>
+                    <div class="step-title">Per quale azienda lavori?</div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="company" placeholder="Nome azienda (o freelancer)">
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Indietro</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Continua</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Email -->
+            <div class="step" data-step="3">
+                <div class="step-header">
+                    <div class="step-number">Step 3 di 8</div>
+                    <div class="step-title">Qual è la tua email?</div>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="mario@azienda.it" required>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Indietro</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Continua</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Phone -->
+            <div class="step" data-step="4">
+                <div class="step-header">
+                    <div class="step-number">Step 4 di 8</div>
+                    <div class="step-title">Numero di telefono (opzionale)</div>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" placeholder="+39 333 123 4567">
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Indietro</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Continua</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Service -->
+            <div class="step" data-step="5">
+                <div class="step-header">
+                    <div class="step-number">Step 5 di 8</div>
+                    <div class="step-title">Di quale servizio hai bisogno?</div>
+                </div>
+                <div class="options-grid">
+                    <button class="option-btn" onclick="selectOption('service', 'Content Creation', this)">Content Creation</button>
+                    <button class="option-btn" onclick="selectOption('service', 'Social Media Management', this)">Social Media Management</button>
+                    <button class="option-btn" onclick="selectOption('service', 'Brand Identity', this)">Brand Identity</button>
+                    <button class="option-btn" onclick="selectOption('service', 'Video Production', this)">Video Production</button>
+                    <button class="option-btn" onclick="selectOption('service', 'AI Automation', this)">AI Automation</button>
+                    <button class="option-btn" onclick="selectOption('service', 'Full Marketing Package', this)">Full Marketing Package</button>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Indietro</button>
+                    <button class="btn btn-primary" onclick="nextStep()" id="serviceBtn" disabled>Continua</button>
+                </div>
+            </div>
+
+            <!-- Step 6: Budget -->
+            <div class="step" data-step="6">
+                <div class="step-header">
+                    <div class="step-number">Step 6 di 8</div>
+                    <div class="step-title">Qual è il tuo budget mensile?</div>
+                </div>
+                <div class="options-grid">
+                    <button class="option-btn" onclick="selectOption('budget', '€300-500/mese', this)">€300-500/mese</button>
+                    <button class="option-btn" onclick="selectOption('budget', '€500-1000/mese', this)">€500-1000/mese</button>
+                    <button class="option-btn" onclick="selectOption('budget', '€1000-2000/mese', this)">€1000-2000/mese</button>
+                    <button class="option-btn" onclick="selectOption('budget', '€2000+/mese', this)">€2000+/mese</button>
+                    <button class="option-btn" onclick="selectOption('budget', 'Da definire', this)">Da definire</button>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Indietro</button>
+                    <button class="btn btn-primary" onclick="nextStep()" id="budgetBtn" disabled>Continua</button>
+                </div>
+            </div>
+
+            <!-- Step 7: Timeline -->
+            <div class="step" data-step="7">
+                <div class="step-header">
+                    <div class="step-number">Step 7 di 8</div>
+                    <div class="step-title">Quando vorresti iniziare?</div>
+                </div>
+                <div class="options-grid">
+                    <button class="option-btn" onclick="selectOption('timeline', 'immediatamente', this)"> immediatamente</button>
+                    <button class="option-btn" onclick="selectOption('timeline', 'Entro 1 mese', this)">Entro 1 mese</button>
+                    <button class="option-btn" onclick="selectOption('timeline', 'Entro 3 mesi', this)">Entro 3 mesi</button>
+                    <button class="option-btn" onclick="selectOption('timeline', 'Solo informazioni', this)">Solo informazioni</button>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Indietro</button>
+                    <button class="btn btn-primary" onclick="nextStep()" id="timelineBtn" disabled>Continua</button>
+                </div>
+            </div>
+
+            <!-- Step 8: Message -->
+            <div class="step" data-step="8">
+                <div class="step-header">
+                    <div class="step-number">Step 8 di 8</div>
+                    <div class="step-title">Raccontaci il tuo progetto</div>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" placeholder="Descrivi brevemente cosa ti serve, i tuoi obiettivi, il tuo target..."></textarea>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevStep()">Indietro</button>
+                    <button class="btn btn-primary" onclick="submitForm()">Invia Richiesta</button>
+                </div>
+            </div>
+
+            <!-- Success Screen -->
+            <div class="step" data-step="success">
+                <div class="success-screen">
+                    <div class="success-icon">🎉</div>
+                    <h2 class="success-title">Grazie!</h2>
+                    <p class="success-text">Abbiamo ricevuto la tua richiesta. Ti contatteremo entro 24 ore.</p>
+                    <a href="https://instagram.com/deyemproject" target="_blank" class="btn btn-primary" style="text-decoration: none; display: inline-block;">Seguici su Instagram</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 24px;">
+            <a href="https://deyemproject-cloud.github.io/deyem-website/" class="back-link">← Torna al sito</a>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 8;
+        const formData = {};
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`[data-step="${step}"]`).classList.add('active');
+            updateProgress();
+        }
+
+        function nextStep() {
+            // Save current step data
+            const currentStepEl = document.querySelector(`[data-step="${currentStep}"]`);
+            const inputs = currentStepEl.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.value) {
+                    formData[input.id] = input.value;
+                }
+            });
+
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function selectOption(field, value, element) {
+            formData[field] = value;
+            
+            // Remove selected class from all buttons in this step
+            const stepEl = element.closest('.step');
+            stepEl.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            
+            // Add selected class to clicked button
+            element.classList.add('selected');
+            
+            // Enable continue button
+            document.getElementById(field + 'Btn').disabled = false;
+        }
+
+        async function submitForm() {
+            // Save message
+            formData.message = document.getElementById('message').value;
+
+            // Show loading
+            const submitBtn = document.querySelector('[data-step="8"] .btn-primary');
+            submitBtn.textContent = 'Invio in corso...';
+            submitBtn.disabled = true;
+
+            try {
+                // Send to Telegram
+                const botToken = '8504097265:AAFKN_8n19nrBdwThjXY_SiekCEvUgQ5nV4';
+                const chatId = '1425431994';
+                
+                const notification = `
+🚨 **NUOVO LEAD DAL SITO WEB!**
+
+👤 **Nome:** ${formData.name}
+🏢 **Azienda:** ${formData.company || 'Non specificata'}
+📧 **Email:** ${formData.email}
+📱 **Telefono:** ${formData.phone || 'Non fornito'}
+🎯 **Servizio:** ${formData.service}
+💰 **Budget:** ${formData.budget}
+⏰ **Timeline:** ${formData.timeline}
+
+📝 **Messaggio:**
+${formData.message || 'Nessun messaggio'}
+
+---
+📅 ${new Date().toLocaleString('it-IT')}
+                `;
+
+                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: notification,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                // Show success
+                showStep('success');
+                document.getElementById('progressFill').style.width = '100%';
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Errore durante l\'invio. Riprova più tardi.');
+                submitBtn.textContent = 'Invia Richiesta';
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Handle Enter key
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && currentStep < totalSteps) {
+                const activeStep = document.querySelector('.step.active');
+                const hasTextarea = activeStep.querySelector('textarea');
+                if (!hasTextarea) {
+                    e.preventDefault();
+                    nextStep();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
