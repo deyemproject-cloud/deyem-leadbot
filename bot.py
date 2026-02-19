@@ -20,7 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Bot configuration
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"  # Will be set via env variable
+BOT_TOKEN = "8504097265:AAFKN_8n19nrBdwThjXY_SiekCEvUgQ5nV4"  # Deyem Project Bot
 ANDREA_CHAT_ID = "1425431994"  # Your Telegram ID
 
 # Conversation states

@@ -1,0 +1,5 @@
+/data/.openclaw/workspace/deyem-leadbot/bot.py:365: PTBUserWarning: If 'per_message=False', 'CallbackQueryHandler' will not be tracked for every message. Read this FAQ entry to learn more about the per_* settings: https://github.com/python-telegram-bot/python-telegram-bot/wiki/Frequently-Asked-Questions#what-do-the-per_-settings-in-conversationhandler-do.
+  conv_handler = ConversationHandler(
+2026-02-19 15:18:45,373 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8504097265:AAFKN_8n19nrBdwThjXY_SiekCEvUgQ5nV4/getMe "HTTP/1.1 200 OK"
+2026-02-19 15:18:45,384 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8504097265:AAFKN_8n19nrBdwThjXY_SiekCEvUgQ5nV4/deleteWebhook "HTTP/1.1 200 OK"
+2026-02-19 15:18:45,386 - telegram.ext.Application - INFO - Application started
